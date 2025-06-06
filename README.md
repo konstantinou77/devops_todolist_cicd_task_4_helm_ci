@@ -1,50 +1,34 @@
-# Django ToDo list
+# GitHub Actions Workflow with Docker & Helm CI
 
-This is a to-do list web application with the basic features of most web apps, such as accounts/login, API, and interactive UI. 
+# Project Overview:
 
-To complete this task, you will need:
+This repository demonstrates how to extend a GitHub Actions workflow with CI
+steps for building and pushing Docker images, and for validating and packaging
+Helm charts. The CI is configured to run only on the personal feature branch
+(your_name), not on main.
 
-- CSS | [Skeleton](http://getskeleton.com/)
-- JS  | [jQuery](https://jquery.com/)
+# Tech Stack:
 
-## Explore
+- GitHub Actions (CI/CD)
+- Docker & DockerHub
+- Helm
+- GitHub Repository Secrets
+- GitHub Actions Artifacts
 
-Try it out by installing the requirements (the following commands work only with Python 3.8 and higher due to Django 4):
+# What Was Done:
 
-```
-pip install -r requirements.txt
-```
+- Added a docker-ci job to build and push Docker images to DockerHub.
+- Helm CI:
+  - Added a helm-ci job that runs after Docker CI.
+  - helm-ci includes:
+    - Downloading Helm artifacts.
+    - Running helm template to validate rendered manifests.
+    - Running helm lint to check chart syntax and structure.
+    - Packaging the Helm chart.
+    - Uploading the .tgz chart archive to GitHub Actions artifacts.
+    - helm-ci also runs only on the your_name branch.
 
-Create a database schema:
 
-```
-python manage.py migrate
-```
+# Link to the successful GitHub Actions run:
+https://github.com/konstantinou77/devops_todolist_cicd_task_4_helm_ci/actions/runs/14729288873
 
-And then start the server (default is <http://localhost:8000>):
-
-```
-python manage.py runserver
-```
-
-You can now browse the [API](http://localhost:8000/api/) or start on the [landing page](http://localhost:8000/).
-
-## Task
-
-Extend a GitHub Actions workflow for this project with a Docker build and push to the DockerHub Registry.
-Docker CI Job Requirements:
-
-1. Update your forked repository with your DockerHub username and password.
-2. Update DockerImageName with your DockerHub image repository name
-3. Add `helm-ci` job to the workflow.
-4. The repository should be checked out only once per workflow run
-5. New Job should include the following steps:
-    1. Download helm artifacts
-    1. Execute `helm template` for the chart
-    1. Execute `helm lint` for the chart
-    1. Package the chart
-    1. Upload the chart package to the GitHub artifacts
-6. Create a pull request with the changes.
-7. Pull requests description should also contain a reference to a workflow run with a successful Helm CI job.
-
-💡 **Please note:** use the `your_name` branch instead of the `main` branch for this task.
